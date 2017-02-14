@@ -11,9 +11,10 @@ import numpy as np
 import modelmaker
 
 filename = "test.jpg"
+savefilename = "abc.ply"
 
 img = cv2.imread(filename, 0)
 cv2.imshow("img", img)
 cv2.waitKey(-1)
 
-modelmaker.createModel(img)
+modelmaker.createModel(savefilename, img)

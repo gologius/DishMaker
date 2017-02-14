@@ -48,12 +48,15 @@ def writeToPLY(filename, vertices, faces):
     file.close()
     return    
     
-def createModel(img):
+def createModel(savefilename, img):
     """
     画像から3次元モデルを生成する
 
     Parameters
     -----
+    savefilename (string)
+        保存するファイルの名前
+    
     img (ndarray)
         対象の画像
     
@@ -85,6 +88,6 @@ def createModel(img):
         v[2] = img[row_index, col_index]
     
     #ファイル書き込み    
-    writeToPLY("aaa.ply", vertices, faces)
+    writeToPLY(savefilename, vertices, faces)
     
     return
