@@ -5,3 +5,5 @@
 *.png
 *.jpg
 *.spyderproject
+*.ply
+test.py
