@@ -13,16 +13,17 @@ import modelmaker
 
 print "start"
 
-filename = "test.jpg"
+filename = "test2.png"
 savefilename = "abc.ply"
 colorResolution = 16
 
 img = cv2.imread(filename, 0)#グレースケールで読み込み
 segment_img = np.clip(img, 0,colorResolution) * (255/colorResolution) #色の分解能を減らす
 
-cv2.imshow("img", segment_img)
+cv2.imshow("original", img)
+cv2.imshow("segment", segment_img)
 cv2.waitKey(3000)
 cv2.destroyAllWindows()
 
 print "end"
-modelmaker.createModel(savefilename, img)
+modelmaker.createModel(savefilename, segment_img)
