@@ -6,24 +6,26 @@ Created on Mon Feb 13 22:53:36 2017
 """
 
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 
 import modelmaker
-
 
 print "start"
 
 filename = "test2.png"
 savefilename = "abc.ply"
-colorResolution = 16
+colorResolution = 8
+medianFilterSize = 7
 
-img = cv2.imread(filename, 0)#グレースケールで読み込み
-segment_img = np.clip(img, 0,colorResolution) * (255/colorResolution) #色の分解能を減らす
+img = cv2.imread(filename, 0) #グレースケールで読み込み
+img = cv2.medianBlur(img, medianFilterSize)
+div = int(255 / colorResolution)
+segment_img = img / div  #色の分解能を減らす
 
-cv2.imshow("original", img)
-cv2.imshow("segment", segment_img)
-cv2.waitKey(3000)
-cv2.destroyAllWindows()
+plt.imshow(img)
+plt.imshow(segment_img)
+
+modelmaker.createModel(savefilename, segment_img)
 
 print "end"
-modelmaker.createModel(savefilename, segment_img)
