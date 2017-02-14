@@ -9,7 +9,7 @@ import numpy as np
 import scipy.spatial #Delaunay
 
 def writeToPLY(filename, vertices, faces):
-     """
+    """
     PLYファイルにモデル情報を書き込む
 
     Parameters
@@ -63,10 +63,28 @@ def createModel(img):
     
     """
     
-    vertices = np.arange()  
+    #頂点の生成
+    num_vertices = img.shape[0] * img.shape[1]
+    vertices = np.empty((num_vertices, 2))
+    for i in np.arange(0,num_vertices):
+        row_index = i/img.shape[1]
+        col_index = i%img.shape[1]
+        vertices[i,0] = row_index
+        vertices[i,1] = col_index
     
-    results = scipy.spatial.Delaunay(img)
-    tri = results.vertices
-            
+    #ドロネー三角形分割によるメッシュ生成
+    delaunay = scipy.spatial.Delaunay(vertices) 
+    faces = delaunay.vertices
+    
+    #depth決定
+    vertices = np.hstack(( vertices, np.empty((len(vertices),1)) )) #depth用に次元を拡張
+    
+    for (i,v) in enumerate(vertices):
+        row_index = i/img.shape[1]
+        col_index = i%img.shape[1]       
+        v[2] = img[row_index, col_index]
+    
+    #ファイル書き込み    
+    writeToPLY("aaa.ply", vertices, faces)
     
     return
